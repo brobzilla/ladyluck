@@ -192,7 +192,7 @@ class XWingMetaData:
         print ("is imp")
 
     def ships(self):
-        return ships.keys()
+        return list(ships.keys())
 
     def ships_full(self):
         return ships
@@ -237,7 +237,7 @@ class XWingList:
 
     def get_ship_for_id(self, id, request_form):
         ship = {}
-        for k in request_form.keys():
+        for k in list(request_form.keys()):
             if k.endswith(id ) and request_form[k] is not None and len(request_form[k]) > 0 :
                 ship[ k ] = request_form[ k ]
         return ship
@@ -249,7 +249,7 @@ class XWingList:
         for id in range(0,7,1):
             id = str(id)
             ship = self.get_ship_for_id(id, request_form)
-            if len(ship.keys()) > 0:
+            if len(list(ship.keys())) > 0:
                 ret.append(ship)
         return ret
 

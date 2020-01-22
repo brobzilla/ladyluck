@@ -61,7 +61,7 @@ class MergedProbabilityMassFunction:
                 if i > j:
                     num_hits = i - j
                 phit = red_pmf.pmf[i] * green_pmf.pmf[j]
-                if not self.merged.has_key( num_hits ):
+                if num_hits not in self.merged:
                     self.merged[ num_hits ] = phit
                 else:
                     self.merged[ num_hits ] = self.merged[num_hits] + phit
@@ -70,7 +70,7 @@ class MergedProbabilityMassFunction:
             j = 0
 
         self.weighted_avg = 0
-        for hit in self.merged.keys():
+        for hit in list(self.merged.keys()):
             self.weighted_avg += hit * self.merged[hit]
 
 class TestProbs(unittest.TestCase):

@@ -1,4 +1,5 @@
-import StringIO
+import base64
+import io
 import matplotlib
 matplotlib.use('AGG')
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -59,10 +60,10 @@ class LuckPlot:
 
         ax.grid(True)
 
-        output = StringIO.StringIO()
+        output = io.BytesIO()
         fig.savefig(output, format='png')
         plt.close()
-        data = output.getvalue().encode('base64')
+        data = base64.b64encode(output.getvalue()).decode()
         return data
 
 class DamagePlot:
@@ -87,10 +88,10 @@ class DamagePlot:
 
         ax.grid(True)
 
-        output = StringIO.StringIO()
+        output = io.BytesIO()
         fig.savefig(output, format='png')
         plt.close()
-        data = output.getvalue().encode('base64')
+        data = base64.b64encode(output.getvalue()).decode()
         return data
 
 
@@ -120,10 +121,10 @@ class VersusPlot:
 
         ax.grid(True)
 
-        output = StringIO.StringIO()
+        output = io.BytesIO()
         fig.savefig(output, format='png')
         plt.close()
-        data = output.getvalue().encode('base64')
+        data = base64.b64encode(output.getvalue()).decode()
         return data
 
 class AdvantagePlot:
@@ -186,10 +187,10 @@ class AdvantagePlot:
 
         ax1.grid(True)
 
-        output = StringIO.StringIO()
+        output = io.BytesIO()
         fig.savefig(output, format='png')
         plt.close()
 
-        data = output.getvalue().encode('base64')
+        data = base64.b64encode(output.getvalue()).decode()
         return data
 

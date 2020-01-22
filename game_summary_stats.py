@@ -647,7 +647,7 @@ class GameTapeTester(unittest.TestCase):
 
         p2_greens = self.g.game_tape.final_green_scores( p2 )
 
-        print p2_greens
+        print(p2_greens)
         self.assertEqual( 5, len(p2_greens))
         self.assertEqual( 0, p2_greens[0])
         self.assertEqual( 0.3125, p2_greens[1])

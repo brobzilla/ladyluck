@@ -6,3 +6,6 @@ If you'd like to contribute to this site, please contact me on github.
 
 
 http://www.norbauer.com/rails-consulting/notes/erd-diagrams-from-sequel-pro.html : erd generator
+
+ env FLASK_APP=ladyluck LOCAL_DB_URL='sqlite:////home/rekenne/ladyluck/dbdatabase.db' /home/rekenne/.local/bin/flask run
+

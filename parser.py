@@ -1,5 +1,5 @@
 
-from __future__ import print_function
+
 from collections import OrderedDict
 import re
 from fsm import fsm
@@ -19,7 +19,7 @@ class LogFileParser:
 
 
     def get_players(self):
-        return self.players.keys()
+        return list(self.players.keys())
 
     def add_line(self, line):
         self.clean_up_lines([line])

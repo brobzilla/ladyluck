@@ -1,7 +1,6 @@
 import json
 import os
 import uuid
-import MySQLdb
 
 from flask import render_template, request, url_for, redirect, Response, make_response
 from colorscale import colorscale
@@ -75,7 +74,7 @@ def save_game_log( tape, is_good):
     else:
         dir = os.path.join( static_dir, "good_chat_logs")
     file = os.path.join( dir, str(uuid.uuid4() ) + ".txt" )
-    fd = open( file, 'w' )
+    fd = open( file, 'wb' )
     fd.write( tape.encode('ascii', 'ignore') )
     fd.close()
 
@@ -204,7 +203,7 @@ def calculate_luck_result(game, game_tape):
             game_tape = GameTape(game)
             game_tape.score()
         except:
-            print "couldn't score game id {0}.".format(game.id)
+            print("couldn't score game id {0}.".format(game.id))
             return None
     for player in game.game_players:
         luck_result = LuckResult()
@@ -232,10 +231,10 @@ def populate_luck_scores():
     pm.delete_all_luck_results(myapp.db_connector.get_session())
     games = PersistenceManager(myapp.db_connector).get_games(myapp.db_connector.get_session())
     i = 0
-    print "populating " + str(len(games)) + " luck results "
+    print("populating " + str(len(games)) + " luck results ")
     for game in games:
         if i % 100 == 0:
-            print "calculating luck result for " + str(i) + "th game"
+            print("calculating luck result for " + str(i) + "th game")
         i += 1
         luck_result = calculate_luck_result(game, game_tape=None)
         if luck_result is not None:
@@ -313,8 +312,8 @@ def versus():
     id = str(request.args.get('game_id'))
     game = PersistenceManager().get_game(session,id)
 
-    attacker_id = long(request.args.get('attacker'))
-    defender_id = long(request.args.get('defender'))
+    attacker_id = int(request.args.get('attacker'))
+    defender_id = int(request.args.get('defender'))
 
     vp = VersusPlot( game, attacker_id, defender_id)
     output = vp.plot()
@@ -327,7 +326,7 @@ def luck_graph():
     id = str(request.args.get('game_id'))
     game = PersistenceManager().get_game(session,id)
 
-    player_id = long(request.args.get('player'))
+    player_id = int(request.args.get('player'))
     dice_type = request.args.get('dice_type')
 
     lp = LuckPlot( game, player_id, dice_type)

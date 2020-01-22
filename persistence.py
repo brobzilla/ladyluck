@@ -6,7 +6,7 @@ from myapp import db_connector
 
 __author__ = 'lhayhurst'
 
-import time
+import datetime
 from decl_enum import DeclEnum
 from sqlalchemy import Column, Integer, String, DateTime, Table, desc, Float, asc
 from sqlalchemy import ForeignKey
@@ -181,7 +181,7 @@ class Game(Base):
     game_winner = relationship(Player.__name__, secondary=GameWinner, uselist=False)
 
     def __init__(self, session, players, winner=None):
-        self.game_played_time = time.strftime('%Y-%m-%d %H:%M:%S')
+        self.game_played_time = datetime.datetime.now()
         for player in players:
             self.game_players.append(Player.as_unique(session, name=player))
         self.game_name = "{0} v {1} ({2}".format(self.game_players[0].name, self.game_players[1].name,

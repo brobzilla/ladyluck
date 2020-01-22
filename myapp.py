@@ -16,8 +16,7 @@ class MyDatabaseConnector(object):
 
     def connect(self):
         if self.engine is None:
-            self.engine = create_engine(os.getenv('LOCAL_DB_URL'), echo=False, pool_size=100, pool_recycle=499,
-                                        pool_timeout=20)
+            self.engine = create_engine(os.getenv('LOCAL_DB_URL'))
 
             if self.Session is None:
                 self.Session = scoped_session(sessionmaker(bind=self.engine, expire_on_commit=False))

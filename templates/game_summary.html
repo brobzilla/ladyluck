@@ -340,7 +340,7 @@
                                               context.strokeStyle="green"
                                               context.fillStyle="green"
                                               context.arc(20, 20, Math.abs({{attack_set.total_defense_end_luck() }}) * (40/3.5), 0, Math.PI * 2, false);
-                                              {%  if attack_set.total_defense_end_luck() < 0  %}
+                                              {%  if attack_set.total_defense_end_luck() == None or attack_set.total_defense_end_luck() < 0  %}
                                                   context.stroke()
                                               {% else %}
                                                   context.fill()
