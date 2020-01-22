@@ -1,1 +1,1 @@
-web: flask run --port=80
+web: gunicorn ladyluck:app
