@@ -24,7 +24,7 @@ ALLOWED_EXTENSIONS = set( ['png'])
 here = os.path.dirname(__file__)
 static_dir = os.path.join( here, app.config['UPLOAD_FOLDER'] )
 
-ADMINS = ['sozinsky@gmail.com']
+ADMINS = ['brobzilla@gmail.com']
 
 session = myapp.db_connector.get_session()
 
@@ -37,7 +37,7 @@ def about():
     return render_template('about.html')
 
 
-@app.route("/games" )
+@app.route("/games")
 def games():
     try:
         games = PersistenceManager(myapp.db_connector).get_games(myapp.db_connector.get_session())

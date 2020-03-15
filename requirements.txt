@@ -2,3 +2,4 @@ flask
 matplotlib
 sqlalchemy
 gunicorn
+psycopg2-binary

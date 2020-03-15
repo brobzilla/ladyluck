@@ -1,11 +1,19 @@
 Web site for showing X-Wing dice luck.
 
-See http://sozin.pythonanywhere.com/about
-
 If you'd like to contribute to this site, please contact me on github.
 
+`heroku local` to run the app locally
 
-http://www.norbauer.com/rails-consulting/notes/erd-diagrams-from-sequel-pro.html : erd generator
+configure .env to be the info for the DB
+```
+DATABASE_URL=postgres:///ladyluck_db
+```
 
- env FLASK_APP=ladyluck LOCAL_DB_URL='sqlite:////home/rekenne/ladyluck/dbdatabase.db' /home/rekenne/.local/bin/flask run
+
+I also added `create_database.py` to help make the postgres DB easier.
+
+Then pushed DB to heroku with 
+`heroku pg:push ladyluck_db DATABASE_URL `
+
+
 
