@@ -17,3 +17,8 @@ Then pushed DB to heroku with
 
 
 
+
+Because I'm old and I can't remember how to deploy once every month.
+```
+git push heroku master
+```
