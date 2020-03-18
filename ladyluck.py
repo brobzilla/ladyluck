@@ -169,8 +169,7 @@ def delete_game():
     #doing this manually as I banged my head against the wall trying to get it to work using the sql alchemy cascade logic...
     luck_results = PersistenceManager(myapp.db_connector).get_luck_score(session, game.id)
     if luck_results is not None:
-        for lr in luck_results:
-            myapp.db_connector.get_session().delete(lr)
+        myapp.db_connector.get_session().delete(luck_results)
 
     for throw in game.game_throws:
         for result in throw.results:
