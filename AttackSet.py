@@ -167,6 +167,9 @@ class AttackSet:
             if rec.attack_convert is not None:
                 initial_attack_counter.count_convert( rec.attack_convert )
 
+            if rec.defense_convert is not None:
+                initial_defend_counter.count_convert( rec.defense_convert )
+
             if rec.attack_end is not None and rec.attack_cancel is None:
                 luck = self.end_score.eval( rec.attack_end.dice_type, self.end_counter.count(rec.attack_end))
                 rec.attack_end_luck = luck
