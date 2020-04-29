@@ -4,7 +4,10 @@
   <ul>
   {%  for game in games  %}
   <li>
-      <a href="{{ url_for("game", id=game.id) }}" > {{ game.display_text() }}</a>    <a href="{{ url_for("delete_game", id=game.id)}}">delete</a>
+      <a href="{{ url_for("game", id=game.id) }}" > {{ game.display_text() }}</a>
+      <form action="{{ url_for("api_delete_game", id=game.id)}}" method="post">
+        <button type="submit" name="deleteMe">Delete</button>
+      </form>
   </li>
   {%  endfor %}
   </ul>

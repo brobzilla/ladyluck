@@ -7,6 +7,7 @@ from myapp import db_connector
 __author__ = 'lhayhurst'
 
 import datetime
+from marshmallow import Schema, fields
 from decl_enum import DeclEnum
 from sqlalchemy import Column, Integer, String, DateTime, Table, desc, Float, asc
 from sqlalchemy import ForeignKey
@@ -171,6 +172,17 @@ class DiceThrow(Base):
     player = relationship(Player.__name__, uselist=False)
     results = relationship(DiceThrowResult.__name__)
 
+
+class DiceThrowSchema(Schema):
+    id = fields.Number()
+    game_id = fields.Number()
+    player_id = fields.Number()
+    # throw_type = fields.Str()
+    attack_set_num = fields.Number()
+    # player = relationship(Player.__name__, uselist=False)
+    # results = relationship(DiceThrowResult.__name__)
+
+
 class Game(Base):
     __tablename__ = game_table
     id = Column(Integer, primary_key=True)
@@ -210,6 +222,15 @@ class Game(Base):
 
     def display_text(self):
         return "{0} v {1} at {2}".format(self.game_players[0].name, self.game_players[1].name, self.game_played_time)
+
+
+class GameSchema(Schema):
+    id = fields.Number()
+    game_played_time = fields.DateTime()
+    game_name = fields.Str()
+    # game_players = relationship(Player.__name__, secondary=GamePlayers)
+    # game_throws = fields.List(fields.Nested(DiceThrowSchema()))
+    # game_winner = relationship(Player.__name__, secondary=GameWinner, uselist=False)
 
 luck_result_table = "luck_result"
 class LuckResult(Base):

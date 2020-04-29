@@ -1,5 +1,7 @@
 flask
+flask-cors
 matplotlib
 sqlalchemy
 gunicorn
 psycopg2-binary
+marshmallow

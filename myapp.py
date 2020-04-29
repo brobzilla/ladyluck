@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask_cors import CORS
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -49,4 +50,5 @@ db_connector = MyDatabaseConnector()
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     return app

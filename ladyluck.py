@@ -2,13 +2,13 @@ import json
 import os
 import uuid
 
-from flask import render_template, request, url_for, redirect, Response, make_response
+from flask import render_template, request, url_for, redirect, Response, make_response, jsonify
 from colorscale import colorscale
 import myapp
 
 from game_summary_stats import GameTape
 from parser import LogFileParser
-from persistence import Game, PersistenceManager, LuckResult, LuckMeasure
+from persistence import Game, PersistenceManager, LuckResult, LuckMeasure, GameSchema
 from plots.player_plots import LuckPlot, VersusPlot, AdvantagePlot, DamagePlot
 from xwingmetadata import XWingMetaData
 import xwingmetadata
@@ -46,6 +46,7 @@ def games():
         #give it another shot...
         games = PersistenceManager(myapp.db_connector).get_games(myapp.db_connector.get_session())
         return( render_template('games.html', num_games=len(games), games=games) )
+
 
 @app.route("/editgames")
 def editgames():
@@ -159,28 +160,6 @@ def download_game():
 
     disposition = "attachment; filename=all_dice.csv"
     return Response(generate(rows), mimetype='text/csv', headers={'Content-Disposition': disposition} )
-
-@app.route('/delete_game')
-def delete_game():
-    id = str(request.args.get('id'))
-    game = PersistenceManager(myapp.db_connector).get_game(session,id)
-    if game == None:
-        return redirect(url_for('new'))
-    #doing this manually as I banged my head against the wall trying to get it to work using the sql alchemy cascade logic...
-    luck_results = PersistenceManager(myapp.db_connector).get_luck_score(session, game.id)
-    if luck_results is not None:
-        myapp.db_connector.get_session().delete(luck_results)
-
-    for throw in game.game_throws:
-        for result in throw.results:
-            for adjustment in result.adjustments:
-                myapp.db_connector.get_session().delete(adjustment)
-            myapp.db_connector.get_session().delete(result)
-        myapp.db_connector.get_session().delete(throw)
-
-    myapp.db_connector.get_session().delete(game)
-    myapp.db_connector.get_session().commit()
-    return redirect(url_for('editgames'))
 
 @app.route('/leaderboard')
 def leaderboard():
@@ -332,6 +311,39 @@ def luck_graph():
     return lp.plot()
 
 
+@app.route('/api/delete', methods=['POST'])
+def api_delete_game():
+    id = str(request.args.get('id'))
+    game = PersistenceManager(myapp.db_connector).get_game(session,id)
+    if game == None:
+        return redirect(url_for('new'))
+    #doing this manually as I banged my head against the wall trying to get it to work using the sql alchemy cascade logic...
+    luck_results = PersistenceManager(myapp.db_connector).get_luck_score(session, game.id)
+    if luck_results is not None:
+        myapp.db_connector.get_session().delete(luck_results)
+
+    for throw in game.game_throws:
+        for result in throw.results:
+            for adjustment in result.adjustments:
+                myapp.db_connector.get_session().delete(adjustment)
+            myapp.db_connector.get_session().delete(result)
+        myapp.db_connector.get_session().delete(throw)
+
+    myapp.db_connector.get_session().delete(game)
+    myapp.db_connector.get_session().commit()
+    return """{result:"success"}"""
+
+@app.route("/api/games")
+def api_games():
+    try:
+        games = PersistenceManager(myapp.db_connector).get_games(myapp.db_connector.get_session())
+        # transforming into JSON-serializable objects
+        schema = GameSchema(many=True)
+        games_json = schema.dump(games)
+        return jsonify(games_json)
+    except Exception as e:
+        print("It is busted returned {}" + e )
+        return {}
 
 if __name__ == '__main__':
     app.debug = True
